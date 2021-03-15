@@ -126,7 +126,7 @@ n_per_category=19
 story_TR_1 = 14
 story_TR_2 = 464
 station_start = 28 # first TR in station 0
-station_end = 354 # last Tr in station 6
+station_end = 438 # last Tr in station 9
 logging.debug('configuring mask')
 if maskType == 0:
 	starterStr = 'aggregate_data'
@@ -279,5 +279,5 @@ for c in np.arange(n_clf):
 	n_TR_use = len(TR_use)	
 	training_data_reshaped = np.reshape(training_data_use,(nSub,vox_num*n_TR_use))
 	clf.fit(training_data_reshaped,trainingLabels)
-	filename = 'saved_classifiers' + '/' 'LOGISTIC_lbfgs_UPPERRIGHT_prepostInd_' + str(c) + '_' + 'ROI_' + str(maskType) + '_AVGREMOVE_' + str(removeAvg)  + '_filter_' + str(filterType) + '_k1_' + str(k1) + '_k2_' + str(k2)  + '.sav'
+	filename = 'saved_classifiers' + '/' 'LOGISTIC_lbfgs_UPPERRIGHT_prepostIndEXP1_' + str(c) + '_' + 'ROI_' + str(maskType) + '_AVGREMOVE_' + str(removeAvg)  + '_filter_' + str(filterType) + '_k1_' + str(k1) + '_k2_' + str(k2)  + '.sav'
 	pickle.dump(clf,open(filename, 'wb'))
