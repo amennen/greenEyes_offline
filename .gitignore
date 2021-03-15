@@ -1,0 +1,13 @@
+thesis_plots*
+nilearn_cache
+*.nii.gz
+*pdf
+fs-license.txt
+logistic_test
+new_bothphases
+saved_classifiers
+*.out
+classifier_hunt
+aggregate_data
+*.csv
+*.npy
