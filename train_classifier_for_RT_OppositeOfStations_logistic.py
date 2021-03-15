@@ -112,7 +112,7 @@ logging.debug('Getting station information ready')
 stationsDict = np.load('upper_right_winners_nofilter.npy',allow_pickle=True).item()
 ### CHANGING N STATIONS HERE ###
 # For experiment 1 - there were 9 stations; For experiment 2 - there were 7 stations
-nStations = 7 #len(stationsDict)
+nStations = 9 #len(stationsDict)
 good_stations = np.arange(nStations) # because I specified all of the stations here!
 
 nStations = len(good_stations)
@@ -301,6 +301,6 @@ clf = LogisticRegression(solver='lbfgs',C=1)
 training_data_opp_station = training_data_classifier_SRM[:,:,non_station_indices]
 training_data_reshaped = np.reshape(training_data_opp_station,(nSub,vox_num*len(non_station_indices)))
 clf.fit(training_data_reshaped,trainingLabels)
-filename = 'saved_classifiers' + '/' 'LOGISTIC_lbfgs_UPPERRIGHT_OPPOSITEstations_' + '_' + 'ROI_' + str(maskType) + '_AVGREMOVE_' + str(removeAvg)  + '_filter_' + str(filterType) + '_k1_' + str(k1) + '_k2_' + str(k2)  + '.sav'
+filename = 'saved_classifiers' + '/' 'LOGISTIC_lbfgs_UPPERRIGHT_OPPOSITEstationsEXP1_' + '_' + 'ROI_' + str(maskType) + '_AVGREMOVE_' + str(removeAvg)  + '_filter_' + str(filterType) + '_k1_' + str(k1) + '_k2_' + str(k2)  + '.sav'
 pickle.dump(clf,open(filename, 'wb'))
 
