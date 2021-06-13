@@ -205,7 +205,8 @@ for index in np.arange(n_options):
     best_combination[index] = (performance_TR[index] + performance_ST[index])/2
 
 # sort combo accuracy from best to worst
-large_small_ind = np.argsort(best_combination)[::-1]
+### change to sorting by TR accuracy only
+large_small_ind = np.argsort(performance_TR)[::-1]
 array_options = np.arange(n_options)
 combo_sorted = best_combination[large_small_ind]
 print('the best combo accuracy is %4.4f' % combo_sorted[0])
@@ -237,7 +238,7 @@ n_options_show=20 # show only the top 20 performing options
 # *** the chosen classifier for non-logistic - row 97, index = 96 - best TR
 fig,ax= plt.subplots(figsize=(20,15))
 # in the top subplot, we plot sorted TR classifier accuracy
-ax=plt.subplot(2,1,1)
+ax=plt.subplot(1,1,1)
 pl = sns.barplot(data=df_iter,x="rank",y="tr_acc",ci=95)
 sns.set_style("white")
 sns.despine()
@@ -256,10 +257,10 @@ for i in np.arange(n_options_show):
         filterType = np.int(all_filters[c_index])
         ROI = np.int(all_masks[c_index])
         #pl.text(i, total_average_sorted[i]+0.1, str_avg, horizontalalignment='center', size='small', color='black', weight='light')
-        pl.text(i, ytext+0.2, str(ROI), horizontalalignment='center', verticalalignment='center', size='small', color='black',weight='bold')
-        pl.text(i, ytext+.15, str(wasAvgRemove), horizontalalignment='center',  verticalalignment='center',size='small', color='black',weight='light')
-        pl.text(i, ytext+0.1 , str(filterType), horizontalalignment='center',  verticalalignment='center',size='small', color='black',weight='bold')
-        pl.text(i, ytext+0.05, str(k1), horizontalalignment='center', size='small',  verticalalignment='center',color='black',weight='light')
+        pl.text(i, ytext+0.1, str(ROI), horizontalalignment='center', verticalalignment='center', size='small', color='black',weight='bold')
+        pl.text(i, ytext+.075, str(wasAvgRemove), horizontalalignment='center',  verticalalignment='center',size='small', color='black',weight='light')
+        pl.text(i, ytext+0.05 , str(filterType), horizontalalignment='center',  verticalalignment='center',size='small', color='black',weight='bold')
+        pl.text(i, ytext+0.025, str(k1), horizontalalignment='center', size='small',  verticalalignment='center',color='black',weight='light')
         pl.text(i, ytext, str(k2), horizontalalignment='center', size='small',  verticalalignment='center',color='black',weight='bold')
     else:
         C = np.float(all_C[c_index])
@@ -268,42 +269,43 @@ for i in np.arange(n_options_show):
         pl.text(i, ytext+0.1, str(k1), horizontalalignment='center', fontsize=5,  verticalalignment='center',color='black',weight='light')
         pl.text(i, ytext, str(k2), horizontalalignment='center', fontsize=5,  verticalalignment='center',color='black',weight='bold')
 if not logistic:
-    pl.text(i+.5, ytext+0.2, 'ROI', horizontalalignment='left', fontsize=13,  verticalalignment='center', color='black',weight='bold')
-    pl.text(i+.5, ytext+0.1 , 'HP filter', horizontalalignment='left',  fontsize=13,  verticalalignment='center', color='black',weight='bold')
+    pl.text(i+.5, ytext+0.1, 'ROI', horizontalalignment='left', fontsize=17,  verticalalignment='center', color='black',weight='bold')
+    pl.text(i+.5, ytext+0.05 , 'HP filter', horizontalalignment='left',  fontsize=17,  verticalalignment='center', color='black',weight='bold')
 else:
-    pl.text(i+.5, ytext+0.2, 'C', horizontalalignment='left', fontsize=13,  verticalalignment='center',color='black',weight='bold')
-pl.text(i+.5, ytext+0.15, 'mean removed', horizontalalignment='left',fontsize=13, verticalalignment='center', color='black',weight='light')
-pl.text(i+.5, ytext+0.05, 'k1', horizontalalignment='left',fontsize=13,  verticalalignment='center',color='black',weight='light')
-pl.text(i+.5, ytext, 'k2', horizontalalignment='left', fontsize=13,  verticalalignment='center',color='black',weight='bold')
+    pl.text(i+.5, ytext+0.2, 'C', horizontalalignment='left', fontsize=17,  verticalalignment='center',color='black',weight='bold')
+pl.text(i+.5, ytext+0.075, 'mean removed', horizontalalignment='left',fontsize=17, verticalalignment='center', color='black',weight='light')
+pl.text(i+.5, ytext+0.025, 'k1', horizontalalignment='left',fontsize=17,  verticalalignment='center',color='black',weight='light')
+pl.text(i+.5, ytext, 'k2', horizontalalignment='left', fontsize=17,  verticalalignment='center',color='black',weight='bold')
 # this plots a red rectangle around index 11 (from 10.5 - 11.5, width = 1)
-rect = patches.Rectangle((10.5,0.5),1,0.3,linewidth=5,edgecolor='r',facecolor='none')
+rect = patches.Rectangle((-0.5,0.5),1,0.2,linewidth=5,edgecolor='r',facecolor='none')
 ax.add_patch(rect)
 
-plt.ylim([0.5,0.8])
-plt.yticks([0.5,0.75],fontsize=20,weight='normal')
-plt.xticks([])
-plt.xlabel('')
-plt.ylabel('TR clf',fontsize=25,weight='normal')
-plt.title('Mean accuracy over both classifier types',fontsize=30)
+plt.ylim([0.5,0.7])
+plt.yticks([0.5, 0.55, 0.6],fontsize=20,weight='normal')
+#plt.xticks([])
+#plt.xlabel('')
+plt.ylabel('Average accuracy',fontsize=25,weight='normal')
+plt.title('Mean accuracy over all TRs',fontsize=30)
 plt.xlim([-.5,n_options_show-1+.5])
 
 # in the bottom subplot we plot the spatiotemporal classifier performance
-ax=plt.subplot(2,1,2)
-pl = sns.barplot(data=df_iter,x="rank",y="st_acc",ci=95)
-sns.set_style("white")
-sns.despine()
+#### COMMENTING OUT FROM HERE
+#ax=plt.subplot(2,1,2)
+#pl = sns.barplot(data=df_iter,x="rank",y="st_acc",ci=95)
+#sns.set_style("white")
+#sns.despine()
 #plt.plot([-10 ,n_options+5], [.5, .5], 'c--', lw=6)
-plt.ylim([0.5,0.8])
-plt.yticks([0.5,0.75],fontsize=20)
+#plt.ylim([0.5,0.8])
+#plt.yticks([0.5,0.75],fontsize=20)
 plt.xlabel('rank: average accuracy',fontsize=25)
-plt.title('')
-plt.xlim([-.5,n_options_show-1+.5])
+#plt.title('')
+plt.xlim([-.6,n_options_show-1+.6])
 plt.xticks(fontsize=20)
-plt.ylabel('spatiotemporal clf',fontsize=25)
+#plt.ylabel('spatiotemporal clf',fontsize=25)
 # here's where we add the rectangle in the same spot
-rect = patches.Rectangle((10.5,0.5),1,0.3,linewidth=5,edgecolor='r',facecolor='none')
-ax.add_patch(rect)
-plt.savefig('thesis_plots_checked/classifier_search_test_SVM_replacement.pdf')
+#rect = patches.Rectangle((10.5,0.5),1,0.3,linewidth=5,edgecolor='r',facecolor='none')
+#ax.add_patch(rect)
+plt.savefig('thesis_plots_checked/classifier_search_test_SVM_replacement_TR_only.pdf')
 #plt.show()
 
 
@@ -344,6 +346,16 @@ plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
 sns.despine()
 plt.savefig('thesis_plots_checked/winning_clf_SVM.pdf')
+print('PRINTING ACCURACY RESULTS')
+print('TR')
+print(np.mean(all_accuracy_data_TR[:,winning_index]))
+print(np.std(all_accuracy_data_TR[:,winning_index]))
+print('spatiotemporal')
+print(np.mean(all_accuracy_data_ST[:,winning_index]))
+print(np.std(all_accuracy_data_ST[:,winning_index]))
+print('sp - station')
+print(np.mean(all_station_acc))
+print(np.std(all_station_acc))
 #plt.show()
 
 # now plot each classifier performance over different points in the story
