@@ -68,7 +68,7 @@ def makeColorPalette(colors):
 def mean_confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
     n = len(a)
-    m, se = np.mean(a), scipy.stats.sem(a)
+    m, se = np.mean(a), scipy.stats.sem(a, nan_policy='omit')
     h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
     return m, m-h, m+h
 
@@ -379,7 +379,7 @@ accuracy_tr = np.load(filename_data[0]).T
 nTR = np.shape(accuracy_tr)[1]
 x = np.arange(nTR-3)
 y = accuracy_tr[:,3:]
-yerr = scipy.stats.sem(y,axis=0)
+yerr = scipy.stats.sem(y,axis=0, nan_policy='omit')
 mean_acc = np.mean(y,axis=0)
 TR_vec = np.tile(x,n_iter)
 data = y.flatten()
@@ -387,7 +387,7 @@ iter_number = np.repeat(np.arange(n_iter),nTR-3)
 matrix = np.concatenate((TR_vec[:,np.newaxis],data[:,np.newaxis],iter_number[:,np.newaxis]),axis=1)
 df = pd.DataFrame(data=matrix, columns = ['TR', 'accuracy','iter'])
 # also define station error bars
-all_station_err = scipy.stats.sem(station_acc,axis=1,ddof=1)
+all_station_err = scipy.stats.sem(station_acc,axis=1,ddof=1,nan_policy='omit')
 
 # (3) make large plot with TR, segment scores, and station classifier information
 fig,ax1= plt.subplots(figsize=(17,10))
